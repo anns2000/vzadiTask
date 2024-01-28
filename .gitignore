@@ -1,0 +1,12 @@
+/node_modules
+/build
+/.vscode
+/.prettierrc
+/package-lock.json
+/.eslintrc.json
+.env
+/temp
+/photos
+yarn-error.log
+yarn.lock
+/logs

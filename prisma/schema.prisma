@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  system
+  admin
+}
+
+model User {
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
+  fullname  String
+  email     String?  @unique
+  phone     String   @unique
+  password  String
+  banned         Boolean  @default(false)
+  role      Role     @default(user)
+  createdAt DateTime @default(now())
+
+  posts    Post[]    @relation("post")
+  sessions Session[] @relation("auth")
+}
+
+model Post {
+  id        Int       @id @default(autoincrement()) @db.UnsignedInt
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+ 
+  userId   Int       @db.UnsignedInt
+
+  owner User @relation("post", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id         Int     @id @default(autoincrement()) @db.UnsignedInt
+  token      String
+  identifier String
+  userId     Int     @db.UnsignedInt
+  source     String?
+
+  expired       Boolean   @default(false)
+  expired_since DateTime? @db.DateTime(0)
+  createdAt     DateTime  @default(now()) @db.DateTime(0)
+
+  user User @relation("auth", fields: [userId], references: [id], onDelete: Cascade)
+}
