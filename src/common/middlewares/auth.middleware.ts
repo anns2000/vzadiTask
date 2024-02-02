@@ -4,7 +4,9 @@ import { AddUserToReq } from '../../api/auth/auth.middleware';
 
 @Service()
 @Middleware({ type: 'before' })
+
 export class AddUserToReqMiddleware implements ExpressMiddlewareInterface {
+  
   use = AddUserToReq;
 }
 

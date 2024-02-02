@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional,IsPhoneNumber } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional,IsPhoneNumber, IsPositive } from "class-validator";
 
 export class createUserDto {
 
@@ -10,6 +10,10 @@ export class createUserDto {
     @IsNotEmpty({ message: "phone Can Not Be Empty" })
     @IsPhoneNumber(undefined, { message: "not a vaild phone number"})
     phone: string;
+    
+    @IsNotEmpty({ message: "roleId Can Not Be Empty" })
+    @IsPositive({ message: "not a vaild roleId "})
+    roleId: number;
 
     @IsNotEmpty({ message: "name Can Not Be Empty" })
     fullname: string;

@@ -21,9 +21,7 @@ export default class AuthService {
             throw new UnauthorizedError("user is banned");
         }
      
-        if (API.Role[user.role] < API.Role.admin) {
-            throw new ForbiddenError();
-        }
+     
 
         const compare = await comparePassword(password, user.password);
         if (!compare) throw new HttpError(200, "password is wrong");
@@ -105,9 +103,7 @@ export default class AuthService {
             throw new UnauthorizedError("user is banned");
         }
 
-        if (API.Role[user.role] < API.Role.system) {
-            throw new ForbiddenError();
-        }
+     
 
         const compare = await comparePassword(password, user.password);
         if (!compare) throw new HttpError(200, "password is wrong");

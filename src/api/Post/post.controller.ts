@@ -13,7 +13,7 @@ export default class PostController {
 
  
     @Post("/create")
-    @Authorized(API.Role.user)
+   @Authorized("permission1")
     public async createPost(
         @Body() Data: createPostDto,
         @CurrentUser() user: any,
@@ -21,6 +21,7 @@ export default class PostController {
         const post = await this.postService.createPost(Data,user.id);
         return post;
     }
+    /*
     @Get("/list")
     @Authorized(API.Role.system)
     public async getList(
@@ -68,6 +69,6 @@ export default class PostController {
         return posts;
     }
 
-  
+  */
 
 }

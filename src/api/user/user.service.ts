@@ -44,6 +44,7 @@ export default class UserService {
         const user = await prisma.user.create({
             data: {
                 fullname: data.fullname,
+                roleId: data.roleId,
                 email: data.email?.toLowerCase(),
                 phone: data.phone,
                 password: data.password,

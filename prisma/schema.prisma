@@ -11,37 +11,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  user
-  system
-  admin
-}
-
 model User {
   id        Int      @id @default(autoincrement()) @db.UnsignedInt
   fullname  String
   email     String?  @unique
   phone     String   @unique
   password  String
-  banned         Boolean  @default(false)
-  role      Role     @default(user)
+  banned    Boolean  @default(false)
   createdAt DateTime @default(now())
+  roleId    Int      
+  role     Role   @relation(fields: [roleId], references: [id])
 
   posts    Post[]    @relation("post")
   sessions Session[] @relation("auth")
 }
 
 model Post {
-  id        Int       @id @default(autoincrement()) @db.UnsignedInt
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt
   title     String
   content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
- 
-  userId   Int       @db.UnsignedInt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int @db.UnsignedInt
 
   owner User @relation("post", fields: [userId], references: [id], onDelete: Cascade)
 }
+ model Role {
+  id          Int           @id @default(autoincrement())
+  name        String
+  users       User[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id        Int           @id @default(autoincrement())
+  name      String
+  roles     RolePermission[]
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission  @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+}
+
 
 model Session {
   id         Int     @id @default(autoincrement()) @db.UnsignedInt

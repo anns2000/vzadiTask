@@ -1,3 +1,4 @@
+
 import { Authorized, Body, CurrentUser, Get, JsonController, Param, Patch, Post, Put, QueryParams, Req, UseBefore } from "routing-controllers";
 import { createUserDto, editUserDto, getUserDto } from "./dtos";
 import { countStart } from "../../common/helpers/pagination.helper";
@@ -17,9 +18,9 @@ export default class UserController {
         const user = await this.userService.createUser(Data);
         return user;
     }
-    
+   /* 
     @Get("/list")
-    @Authorized(API.Role.system)
+    @Authorized()
     public async getList(
         @QueryParams() Query: getUserDto,
     ) {
@@ -57,6 +58,6 @@ export default class UserController {
         return user;
     }
 
-    
+    */
 
 }

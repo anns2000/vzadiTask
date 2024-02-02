@@ -1,8 +1,11 @@
 import {  Action } from 'routing-controllers';
 import API from './common/config/api.types';
+import { ro } from 'date-fns/locale';
 
-export async function authorizationChecker(action: Action, roles: API.Role[]) {
-    const higherRole =  roles[0];
+export async function authorizationChecker(action: Action,permission?: any) {
+   
+    
+    
     const {user} = action.request;
     if(user){
 
@@ -19,14 +22,22 @@ export async function authorizationChecker(action: Action, roles: API.Role[]) {
             throw err;
             
         }
-        if(user.role >= higherRole){
-            return true; 
+        if(permission[0]){
+            console.log(permission[0]);
+            console.log(user.permission);
+            
+            if(user.permission.includes(permission[0])){
+                return true;
+            }
+            const err403 = new API.err(403);
+            const err: API.Response = Object.assign(err403, {
+                msg: "permission denied"
+            });
+            throw err;
         }
-        else
-        {
-           return false;
-        }
+        
     }
+
     
     return false;
          
