@@ -13,7 +13,7 @@ export default class PostController {
 
  
     @Post("/create")
-   @Authorized("permission1")
+   @Authorized("write")
     public async createPost(
         @Body() Data: createPostDto,
         @CurrentUser() user: any,
@@ -21,7 +21,8 @@ export default class PostController {
         const post = await this.postService.createPost(Data,user.id);
         return post;
     }
-    /*
+    
+    @Authorized("read")
     @Get("/list")
     @Authorized(API.Role.system)
     public async getList(
@@ -32,6 +33,7 @@ export default class PostController {
         const postsList = await this.postService.getList(Query.limit, start);
         return postsList;
     }
+    @Authorized("read")
     @Get("/single/:id")
     @Authorized(API.Role.user)
     public async getPost(
@@ -40,6 +42,7 @@ export default class PostController {
         const post = await this.postService.getPost(id);
         return post;
     }
+    @Authorized("write")
     @Put("/edit/:id")
     @Authorized(API.Role.user)
     public async editPost(
@@ -50,6 +53,7 @@ export default class PostController {
         const post = await this.postService.updatePost(id,user.id, Data);
         return post;
     }
+    @Authorized("write")
     @Delete("/delete/:id")
     @Authorized(API.Role.user)
     public async deletePost(
@@ -60,7 +64,7 @@ export default class PostController {
         return post;
     }
     @Get("/user/list/:userId")
-    @Authorized(API.Role.user)
+    @Authorized("read")
     public async getUserPosts(
         @Param("userId") userId: number,
         @QueryParams() Query:getPostDto ,
@@ -69,6 +73,6 @@ export default class PostController {
         return posts;
     }
 
-  */
+  
 
 }

@@ -12,15 +12,16 @@ export default class UserController {
     constructor(private userService: UserService) { };
    
     @Post("/create")
+    @Authorized("write")
     public async createUser(
         @Body() Data: createUserDto,
     ) {
         const user = await this.userService.createUser(Data);
         return user;
     }
-   /* 
+   
     @Get("/list")
-    @Authorized()
+    @Authorized("read")
     public async getList(
         @QueryParams() Query: getUserDto,
     ) {
@@ -30,7 +31,7 @@ export default class UserController {
     }
 
     @Put("/edit/:id")
-    @Authorized(API.Role.system)
+    @Authorized("write")
     public async editUser(
         @Param("id") id: number,
         @Body() Data: editUserDto,
@@ -41,7 +42,8 @@ export default class UserController {
 
 
     @Put("/ban/:id")
-    @Authorized(API.Role.admin)
+
+    @Authorized("write")
     public async banUser(
         @Param("id") id: number
     ) {
@@ -50,7 +52,7 @@ export default class UserController {
     }
 
     @Get("/single/:id")
-    @Authorized(API.Role.system)
+    @Authorized("read")
     public async getUser(
         @Param("id") id: number,
     ) {
@@ -58,6 +60,6 @@ export default class UserController {
         return user;
     }
 
-    */
+    
 
 }
